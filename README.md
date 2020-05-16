@@ -1,5 +1,4 @@
-# flutter_app_template
-Skeleton Mobile App Program using Dart/Flutter 
+# Skeleton Mobile App Program using Dart/Flutter 
 <br><br>
 이 프로그램은 Dart/Flutter를 사용하여 모바일 앱을 만들려고 하는 경우, 기반(skeleton)으로 사용할 수 있는 프로그램입니다. 모바일 앱에 필요한 기본적인 메뉴에 대해서 미리 채워 두었으니 간단한 프로그램은 logic을 채우는 방법으로 본인의 프로그램을 만들 수 있을 겁니다. 이 프로그램은 dartlang-tutorial 연재글의 35번째에 수록한 프로그램 이기도 합니다. Flutter 프로젝트를 만들고, 포함된 프로그램으로 main.dart를 대체하면 됩니다.
 <br>
