@@ -44,7 +44,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Choice _selectedChoice = choices[0]; // The app's "state".
   int _selectedIndex = 0;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -112,11 +112,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         );
       }, // builder
     ); // showDialog
-    if (scaffoldKey.currentState == null) {
-      return;
-    }
-    scaffoldKey.currentState!
-      ..hideCurrentSnackBar()
+    if (scaffoldMessengerKey.currentState == null) return;
+    scaffoldMessengerKey.currentState!
+      ..removeCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
           content: Text("Result: $result"),
@@ -148,7 +146,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        key: scaffoldKey,
+        key: scaffoldMessengerKey,
         // PageViews
         body: PageView(
           controller: _pageController,
