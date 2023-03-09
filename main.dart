@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
+  MyStatefulWidget({Key? key}) : super(key: key);
 
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
@@ -112,8 +112,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         );
       }, // builder
     ); // showDialog
-
-    scaffoldKey.currentState
+    if (scaffoldKey.currentState == null) {
+      return;
+    }
+    scaffoldKey.currentState!
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
@@ -128,7 +130,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       );
   } // showAlertDialog
 
-  PageController _pageController;
+  late final PageController _pageController;
 
   @override
   void initState() {
@@ -344,7 +346,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 }
 
 class Choice {
-  const Choice({this.title, this.icon});
+  const Choice({required this.title, required this.icon});
 
   final String title;
   final IconData icon;
