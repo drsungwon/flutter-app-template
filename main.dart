@@ -97,13 +97,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           title: Text('AlertDialog Demo'),
           content: Text("Select button you want"),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('OK'),
               onPressed: () {
                 Navigator.pop(context, "OK");
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text('Cancel'),
               onPressed: () {
                 Navigator.pop(context, "Cancel");
@@ -155,11 +155,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             // PageView #0 : Initial Title
             Container(
               color: Colors.white,
-              child: RaisedButton(
-                elevation: 0,
-                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-                color: Colors.blueAccent,
-                textColor: Colors.white,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  padding:
+                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                  foregroundColor: Colors.blueAccent,
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 child: Text(
                   'PageView #0\n\nMain Title',
                   textAlign: TextAlign.center,
@@ -297,15 +300,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
-                    title: Text('Home'),
+                    label: 'Home',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.wb_cloudy),
-                    title: Text('Cloud'),
+                    label: 'Cloud',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.star),
-                    title: Text('Star'),
+                    label: 'Star',
                   ),
                 ],
                 currentIndex: _selectedIndex,
@@ -318,8 +321,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               color: Colors.blueAccent,
               child: Center(
-                child: RaisedButton(
-                  color: Colors.blueAccent,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.blueAccent,
+                  ),
                   onPressed: () {
                     if (_pageController.hasClients) {
                       _pageController.animateToPage(
