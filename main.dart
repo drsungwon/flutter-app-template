@@ -69,7 +69,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     setState(() {
       _selectedIndex = index;
 
-      print("_onItemTapped : $index");
+      debugPrint("_onItemTapped : $index");
 
       if ((_pageController.hasClients) && (index == 0)) {
         _pageController.animateToPage(
