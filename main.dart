@@ -18,7 +18,7 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -94,17 +94,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('AlertDialog Demo'),
-          content: Text("Select button you want"),
+          title: const Text('AlertDialog Demo'),
+          content: const Text("Select button you want"),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.pop(context, "OK");
               },
             ),
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.pop(context, "Cancel");
               },
@@ -158,12 +158,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16.0, horizontal: 24.0),
                   foregroundColor: Colors.blueAccent,
-                  textStyle: TextStyle(color: Colors.white),
+                  textStyle: const TextStyle(color: Colors.white),
                 ),
-                child: Text(
+                child: const Text(
                   'PageView #0\n\nMain Title',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -189,7 +189,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    title: Text("PageView #1 - Main"),
+                    title: const Text("PageView #1 - Main"),
                     backgroundColor: Colors.blueAccent,
                     pinned: true,
                     actions: <Widget>[
@@ -227,7 +227,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     floating: true,
                     expandedHeight: 70.0,
                     flexibleSpace: ListView(
-                      children: <Widget>[
+                      children: const <Widget>[
                         Text(
                           '  Sub-title 0',
                           textAlign: TextAlign.left,
@@ -266,11 +266,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     delegate: SliverChildBuilderDelegate(
                         (context, index) => Card(
                             child: ListTile(
-                                leading: FlutterLogo(),
+                                leading: const FlutterLogo(),
                                 title: Text(
                                     '[Item #$index] Button pressed $_count times.'),
-                                trailing: Icon(Icons.more_vert),
-                                subtitle: Text('${_selectedChoice.title}'),
+                                trailing: const Icon(Icons.more_vert),
+                                subtitle: Text(_selectedChoice.title),
                                 onTap: () => setState(() {
                                       if (_pageController.hasClients) {
                                         _pageController.animateToPage(
@@ -334,7 +334,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       );
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     'PageView #3 - Sub-Menu 2',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
@@ -356,11 +356,11 @@ class Choice {
   final IconData icon;
 }
 
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Rotate Left', icon: Icons.rotate_left),
-  const Choice(title: 'Rotate Right', icon: Icons.rotate_right),
-  const Choice(title: 'Dissatisfied', icon: Icons.sentiment_dissatisfied),
-  const Choice(title: 'Neutral', icon: Icons.sentiment_neutral),
-  const Choice(title: 'Satisfied', icon: Icons.sentiment_satisfied),
-  const Choice(title: 'Very Satisfied', icon: Icons.sentiment_very_satisfied),
+const List<Choice> choices = <Choice>[
+  Choice(title: 'Rotate Left', icon: Icons.rotate_left),
+  Choice(title: 'Rotate Right', icon: Icons.rotate_right),
+  Choice(title: 'Dissatisfied', icon: Icons.sentiment_dissatisfied),
+  Choice(title: 'Neutral', icon: Icons.sentiment_neutral),
+  Choice(title: 'Satisfied', icon: Icons.sentiment_satisfied),
+  Choice(title: 'Very Satisfied', icon: Icons.sentiment_very_satisfied),
 ];
