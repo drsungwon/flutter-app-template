@@ -18,14 +18,15 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   static const String _title = 'Flutter Code Sample';
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: _title,
       home: MyStatefulWidget(),
     );
@@ -33,10 +34,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
+  const MyStatefulWidget({Key? key}) : super(key: key);
 
   @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
@@ -44,7 +45,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Choice _selectedChoice = choices[0]; // The app's "state".
   int _selectedIndex = 0;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -68,7 +69,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     setState(() {
       _selectedIndex = index;
 
-      print("_onItemTapped : $index");
+      debugPrint("_onItemTapped : $index");
 
       if ((_pageController.hasClients) && (index == 0)) {
         _pageController.animateToPage(
@@ -93,17 +94,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('AlertDialog Demo'),
-          content: Text("Select button you want"),
+          title: const Text('AlertDialog Demo'),
+          content: const Text("Select button you want"),
           actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
+            TextButton(
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.pop(context, "OK");
               },
             ),
-            FlatButton(
-              child: Text('Cancel'),
+            TextButton(
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.pop(context, "Cancel");
               },
@@ -112,9 +113,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         );
       }, // builder
     ); // showDialog
-
-    scaffoldKey.currentState
-      ..hideCurrentSnackBar()
+    if (scaffoldMessengerKey.currentState == null) return;
+    scaffoldMessengerKey.currentState!
+      ..removeCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
           content: Text("Result: $result"),
@@ -128,7 +129,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       );
   } // showAlertDialog
 
-  PageController _pageController;
+  late final PageController _pageController;
 
   @override
   void initState() {
@@ -146,7 +147,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        key: scaffoldKey,
+        key: scaffoldMessengerKey,
         // PageViews
         body: PageView(
           controller: _pageController,
@@ -154,12 +155,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             // PageView #0 : Initial Title
             Container(
               color: Colors.white,
-              child: RaisedButton(
-                elevation: 0,
-                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-                color: Colors.blueAccent,
-                textColor: Colors.white,
-                child: Text(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16.0, horizontal: 24.0),
+                  foregroundColor: Colors.blueAccent,
+                  textStyle: const TextStyle(color: Colors.white),
+                ),
+                child: const Text(
                   'PageView #0\n\nMain Title',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -185,7 +189,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    title: Text("PageView #1 - Main"),
+                    title: const Text("PageView #1 - Main"),
                     backgroundColor: Colors.blueAccent,
                     pinned: true,
                     actions: <Widget>[
@@ -223,7 +227,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     floating: true,
                     expandedHeight: 70.0,
                     flexibleSpace: ListView(
-                      children: <Widget>[
+                      children: const <Widget>[
                         Text(
                           '  Sub-title 0',
                           textAlign: TextAlign.left,
@@ -262,11 +266,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     delegate: SliverChildBuilderDelegate(
                         (context, index) => Card(
                             child: ListTile(
-                                leading: FlutterLogo(),
+                                leading: const FlutterLogo(),
                                 title: Text(
                                     '[Item #$index] Button pressed $_count times.'),
-                                trailing: Icon(Icons.more_vert),
-                                subtitle: Text('${_selectedChoice.title}'),
+                                trailing: const Icon(Icons.more_vert),
+                                subtitle: Text(_selectedChoice.title),
                                 onTap: () => setState(() {
                                       if (_pageController.hasClients) {
                                         _pageController.animateToPage(
@@ -296,15 +300,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
-                    title: Text('Home'),
+                    label: 'Home',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.wb_cloudy),
-                    title: Text('Cloud'),
+                    label: 'Cloud',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.star),
-                    title: Text('Star'),
+                    label: 'Star',
                   ),
                 ],
                 currentIndex: _selectedIndex,
@@ -317,8 +321,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               color: Colors.blueAccent,
               child: Center(
-                child: RaisedButton(
-                  color: Colors.blueAccent,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.blueAccent,
+                  ),
                   onPressed: () {
                     if (_pageController.hasClients) {
                       _pageController.animateToPage(
@@ -328,7 +334,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       );
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     'PageView #3 - Sub-Menu 2',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
@@ -344,17 +350,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 }
 
 class Choice {
-  const Choice({this.title, this.icon});
+  const Choice({required this.title, required this.icon});
 
   final String title;
   final IconData icon;
 }
 
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Rotate Left', icon: Icons.rotate_left),
-  const Choice(title: 'Rotate Right', icon: Icons.rotate_right),
-  const Choice(title: 'Dissatisfied', icon: Icons.sentiment_dissatisfied),
-  const Choice(title: 'Neutral', icon: Icons.sentiment_neutral),
-  const Choice(title: 'Satisfied', icon: Icons.sentiment_satisfied),
-  const Choice(title: 'Very Satisfied', icon: Icons.sentiment_very_satisfied),
+const List<Choice> choices = <Choice>[
+  Choice(title: 'Rotate Left', icon: Icons.rotate_left),
+  Choice(title: 'Rotate Right', icon: Icons.rotate_right),
+  Choice(title: 'Dissatisfied', icon: Icons.sentiment_dissatisfied),
+  Choice(title: 'Neutral', icon: Icons.sentiment_neutral),
+  Choice(title: 'Satisfied', icon: Icons.sentiment_satisfied),
+  Choice(title: 'Very Satisfied', icon: Icons.sentiment_very_satisfied),
 ];
